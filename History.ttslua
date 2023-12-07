@@ -1,0 +1,98 @@
+local History = {}
+
+local DataStructs = require('dbx_tts/DataStructs')
+
+History.history_stack = DataStructs.Stack:Create()
+
+-- move is a table of the following type
+-- {
+--    "base_name_1" = {
+--       "old" = old_transform_before_move,
+--       "new" = new_transform_after_move
+--    },
+--    "base_name_2" = { ... }
+-- }
+function History.push_to_history_stack(move)
+    History.history_stack:push(move)
+    log('Pushed new move')
+    log(move)
+    log('---')
+    print_debug('History stack size: ' .. History.history_stack:size())
+end
+
+-- Utility function to create moves for the History.push_to_history_stack
+-- Usage:
+-- local move = {}
+-- History.add_transform_to_move(move, 'base1', ..., ...)
+-- History.add_transform_to_move(move, 'base2', ..., ...)
+-- History.push_to_history_stack(move)
+function History.add_transform_to_move(move, base_name, old_transform, new_transform)
+    local t = {}
+    t['old'] = old_transform
+    t['new'] = new_transform
+
+    move[base_name] = t
+end
+
+function History.apply_move(move, forward)
+    local bases = get_all_bases()
+    local base_objs = {}
+    for base_name, transforms in pairs(move) do
+        print_debug('Searching if this base exists: ' .. base_name)
+        local base_obj = nil
+        for _, base in ipairs(bases) do
+            if base.getName() == base_name then
+                base_obj = base
+                break
+            end
+        end
+
+        if base_obj == nil then
+            print_error('Cannot apply this move '
+                        .. 'because it involves a deleted unit '
+                        .. 'or something that cannot be found: '
+                        .. base_name)
+            return
+        end
+        base_objs[base_name] = base_obj
+    end
+
+
+    for base_name, transforms in pairs(move) do
+        print_debug('Applying move to ' .. base_name)
+        local base_obj = base_objs[base_name]
+
+        if forward then
+            apply_transform_obj(base_obj, transforms['old'], transforms['new'])
+        else
+            apply_transform_obj(base_obj, transforms['new'], transforms['old'])
+        end
+    end
+end
+
+-- Applies the last move on the history stack, going back
+function History.go_back_history_stack()
+    local last_move = History.history_stack:pop()
+    if not last_move then
+        return print_important('Cannot go back because there are no saved moves')
+    end
+
+    print_debug('Going back in history... ')
+    History.apply_move(last_move, false)
+    draw_all_gizmos()
+end
+
+-- Undoes the last move on the history stack, going forward
+function History.go_forward_history_stack()
+    local last_move = History.history_stack:pop_reverse()
+    if not last_move then
+        return print_important('Cannot go forward because there are no saved moves')
+    end
+
+    print_debug('Going forward in history... ')
+    History.apply_move(last_move, true)
+    draw_all_gizmos()
+end
+
+
+return History

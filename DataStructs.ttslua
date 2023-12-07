@@ -1,0 +1,115 @@
+local DataStructs = {}
+
+DataStructs.Stack = {}
+
+-- This is NOT a true stack, but more like a list that behaves with a browsable
+-- head. It imitates history stacks: you can go down but doesnt remember elements
+-- until you go up. However, if you add something, everything up of the current
+-- is removed.
+function DataStructs.Stack:Create()
+    local _stack = {}
+    _stack._current = nil
+    _stack._entries = {}
+
+    -- Enters the value into the stack at the top.
+    -- Returns nil
+    function _stack:push(...)
+        if ... then
+            self:pop_to_current()
+            local table_args = {...}
+            for _, val in ipairs(table_args) do
+                table.insert(self._entries, val)
+            end
+            self._current = #self._entries
+        end
+    end
+
+    -- Gets the current element and advances current lower into the stack, as if
+    -- the element is removed (but it isn't). Cannot go lower than the bottom.
+    -- Returns that element if exists.
+    function _stack:pop()
+        if self._current == nil or self._current < 1 then
+            return
+        end
+        self._current = self._current - 1
+        return self._entries[self._current + 1]
+    end
+
+    -- Goes up in the stack, setting the current to the top of the current one,
+    -- and returns it. The stack itself is not modified. Cannot go upper than
+    -- the top.
+    -- Returns that element if it exists
+    function _stack:pop_reverse()
+        if self._current == nil or self._current == #self._entries then
+            return
+        end
+        self._current = self._current + 1
+        return self._entries[self._current]
+    end
+
+    -- Removes the last added element. This behaves like a proper stack pop
+    -- Returns that last value, if exists
+    function _stack:real_pop()
+        if #self._entries ~= 0 then
+            return table.remove(self._entries)
+        end
+    end
+
+    -- Drops everything on top of the current head. Returns nothing.
+    function _stack:pop_to_current(n)
+        if self._current == nil then
+            return
+        end
+
+        while #self._entries > self._current do
+            self:real_pop()
+        end
+    end
+
+    -- Gets the last element, if exists
+    function _stack:peek()
+        if #self._entries ~= 0 then
+            return self._entries[#self._entries]
+        end
+    end
+
+    -- Gets the current size of the stack
+    function _stack:size()
+        return #self._entries
+    end
+
+    -- Gets the element at position n, with 1 being the first inserted
+    -- and #size the last one
+    function _stack:get_at(n)
+        if n <= self:size() then
+            return self._entries[n]
+        end
+    end
+
+    -- Iterates through the values, from the last insert to the first
+    function _stack:iterator()
+        local count = self:size()
+        local index = count + 1
+        return function()
+            index = index - 1
+            if index > 0 then
+                return self:get_at(index)
+            end
+        end
+    end
+
+    -- Iterates through the values, from the first insert to the last
+    function _stack:iterator_inverse()
+        local index = 0
+        local count = self:size()
+        return function()
+            index = index + 1
+            if index <= count then
+                return self:get_at(index)
+            end
+        end
+    end
+    return _stack
+end
+
+return DataStructs
