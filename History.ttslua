@@ -17,7 +17,7 @@ function History.push_to_history_stack(move)
     log('Pushed new move')
     log(move)
     log('---')
-    print_debug('History stack size: ' .. History.history_stack:size())
+    Logger.debug('History stack size: ' .. History.history_stack:size())
 end
 
 -- Utility function to create moves for the History.push_to_history_stack
@@ -38,7 +38,7 @@ function History.apply_move(move, forward)
     local bases = get_all_bases()
     local base_objs = {}
     for base_name, transforms in pairs(move) do
-        print_debug('Searching if this base exists: ' .. base_name)
+        Logger.debug('Searching if this base exists: ' .. base_name)
         local base_obj = nil
         for _, base in ipairs(bases) do
             if base.getName() == base_name then
@@ -48,7 +48,7 @@ function History.apply_move(move, forward)
         end
 
         if base_obj == nil then
-            print_error('Cannot apply this move '
+            Logger.error('Cannot apply this move '
                         .. 'because it involves a deleted unit '
                         .. 'or something that cannot be found: '
                         .. base_name)
@@ -59,7 +59,7 @@ function History.apply_move(move, forward)
 
 
     for base_name, transforms in pairs(move) do
-        print_debug('Applying move to ' .. base_name)
+        Logger.debug('Applying move to ' .. base_name)
         local base_obj = base_objs[base_name]
 
         if forward then
@@ -74,10 +74,10 @@ end
 function History.go_back_history_stack()
     local last_move = History.history_stack:pop()
     if not last_move then
-        return print_important('Cannot go back because there are no saved moves')
+        return Logger.important('Cannot go back because there are no saved moves')
     end
 
-    print_debug('Going back in history... ')
+    Logger.debug('Going back in history... ')
     History.apply_move(last_move, false)
     draw_all_gizmos()
 end
@@ -86,10 +86,10 @@ end
 function History.go_forward_history_stack()
     local last_move = History.history_stack:pop_reverse()
     if not last_move then
-        return print_important('Cannot go forward because there are no saved moves')
+        return Logger.important('Cannot go forward because there are no saved moves')
     end
 
-    print_debug('Going forward in history... ')
+    Logger.debug('Going forward in history... ')
     History.apply_move(last_move, true)
     draw_all_gizmos()
 end
