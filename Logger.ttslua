@@ -6,33 +6,48 @@ local grey  = { r = 0.8, g = 0.8, b = 0.8}
 local red   = { r =   1, g = 0.2, b = 0.1}
 local gold  = { r =   1, g = 0.9, b =   0}
 
--- Prints to all, only if the DEBUG mode is enabled, by the chat command
-Logger.debug_enabled = false
-function Logger.debug(msg)
-    if Logger.debug_enabled then
-        printToAll('[DEBUG] ' .. msg)
+function Logger:Create()
+    local _logger = {}
+    -- Prints to all, only if the DEBUG mode is enabled, by the chat command
+    _logger.debug_enabled = false
+    _logger.enabled = true
+
+    function _logger.debug(msg)
+        if _logger.enabled and _logger.debug_enabled then
+            printToAll('[DEBUG] ' .. msg)
+        end
     end
-end
 
--- Messages that can be seen by everyone on the textbox
-function Logger.info(msg)
-    printToAll('[INFO] ' .. msg, grey)
-end
+    -- Messages that can be seen by everyone on the textbox
+    function _logger.info(msg)
+        if _logger.enabled then
+            printToAll('[INFO] ' .. msg, grey)
+        end
+    end
 
-function print_warning(msg)
-    printToAll('[WARN] ' .. msg, gold)
-end
+    function _logger.warning(msg)
+        if _logger.enabled then
+            printToAll('[WARN] ' .. msg, gold)
+        end
+    end
 
--- Messages that can be seen by everyone on the textbox and indicate
--- that the user may be doing something wrong
-function Logger.error(msg)
-    printToAll('[ERROR] ' .. msg, red)
-    broadcastToAll('[ERROR] ' .. msg, red)
-end
+    -- Messages that can be seen by everyone on the textbox and indicate
+    -- that the user may be doing something wrong
+    function _logger.error(msg)
+        if _logger.enabled then
+            printToAll('[ERROR] ' .. msg, red)
+            broadcastToAll('[ERROR] ' .. msg, red)
+        end
+    end
 
--- Message that will appear TO EVERYONE ON THE SCREEN.
-function Logger.important(msg)
-    broadcastToAll('[IMPORTANT] ' .. msg, grey)
+    -- Message that will appear TO EVERYONE ON THE SCREEN.
+    function _logger.important(msg)
+        if _logger.enabled then
+            broadcastToAll('[IMPORTANT] ' .. msg, grey)
+        end
+    end
+
+    return _logger
 end
 
 return Logger

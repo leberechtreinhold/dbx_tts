@@ -1,0 +1,9 @@
+-- Entry of the DBX module. This just holds all the files and returns them in the DBX namespace
+-- All other files just do DBX = require('dbx_tts/main') and then they can use everything
+
+local DBX = {}
+
+DBX.Logger = require('dbx_tts/Logger')
+DBX.History = require('dbx_tts/History')
+
+return DBX
