@@ -1,0 +1,51 @@
+local Settings = {}
+
+-- All bases have 40mm width
+Settings.base_width_inches = 1.5748031496062992126
+
+-- All bases are 3mm tall
+Settings.base_height_inches = 0.11811023622047244094
+
+-- When drawing a circle (moving troops, or bow arcs, we use a certain
+-- number of points (they are straight lines), this marks how many points
+-- Must be divisible by 4
+Settings.precision_circle = 32
+
+-- Movement gizmos, fire arcs and deployment guidelines all have
+-- lines painted. This control how thick in inches the lines are
+Settings.line_thickness = 0.04
+
+-- When moving, if you move less than this inches, the base will snap
+-- to this original position, making it easier to undo a move.
+Settings.max_inches_snap_reset = 20/100
+
+-- Max distance in inches between corners for aligment when snapping, squared
+Settings.max_corner_distance_snap = 0.2*0.2
+Settings.max_camp_edge_snap = 1
+
+-- Maximum distance between the center of bases for autoalignment, squared
+Settings.max_distance_alignment = 2^2
+
+-- Angle for alignment front-to-back instead of side-to-side, in radians
+Settings.alignment_angle_side = math.rad(30)
+
+-- Max angle between elements for pushing back a column
+Settings.max_angle_pushback_rad = math.rad(15)
+
+-- Troops spawn with a random facing angle, this control how much they can vary
+-- Note that this goes from -Settings.max_angle_spawn to Settings.max_angle_spawn
+-- It's in degrees
+Settings.max_angle_spawn = 20
+
+-- Troops that are marked as loose (warbands, psiloi etc) may be moved around
+-- a little bit for a better representation. This controls how much, in inches
+Settings.max_loose_spawn = 0.15
+
+-- Models use this collider so they are easier to move
+Settings.minimal_collider = 'http://cloud-3.steamusercontent.com/ugc/1022823184773057328/6E2E42ECBBD40D7501018921FC5898568FF9D748/'
+
+-- How frequently the main loop runs, in seconds
+-- The main loop redraws selections, movement, etc
+Settings.seconds_main_loop = 0.1
+
+return Settings
