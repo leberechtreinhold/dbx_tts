@@ -6,5 +6,7 @@ local DBX = {}
 DBX.Logger = require('dbx_tts/Logger')
 DBX.History = require('dbx_tts/History')
 DBX.Settings = require('dbx_tts/Settings')
+DBX.Utils = require('dbx_tts/Utils')
+DBX.BasePicker = require('dbx_tts/BasePicker')
 
 return DBX
