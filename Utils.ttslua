@@ -1,0 +1,11 @@
+local Utils = {}
+
+function Utils.convert_to_units(length)
+    return length * Settings.units
+end
+
+function Utils.convert_to_units_str(length)
+    return string.format(Settings.format_precision, length) .. ' ' .. Settings.unit_str
+end
+
+return Utils

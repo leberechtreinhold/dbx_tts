@@ -1,5 +1,10 @@
 local Settings = {}
 
+-- For base widths, it would be 1/1.574, 'BW', '%.3f'
+Settings.units = 1*100
+Settings.unit_str = 'paces'
+Settings.format_precision = '%.1f'
+
 -- All bases have 40mm width
 Settings.base_width_inches = 1.5748031496062992126
 
