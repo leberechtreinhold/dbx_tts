@@ -8,4 +8,15 @@ function Utils.convert_to_units_str(length)
     return string.format(Settings.format_precision, length) .. ' ' .. Settings.unit_str
 end
 
+-- Remove white space from beginning and end of string
+function Utils.str_trim(str)
+  return str:gsub("^%s*(.-)%s*$", "%1")
+end
+
+-- Removes the damaged portion of the name so it can be used on the g_bases
+function Utils.get_original_name(base_name)
+    base_name = base_name:gsub('%[%a+%]', '')
+    return Utils.str_trim(base_name)
+end
+
 return Utils
