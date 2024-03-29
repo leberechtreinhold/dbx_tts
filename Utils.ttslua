@@ -1,11 +1,11 @@
 local Utils = {}
 
-function Utils.convert_to_units(length)
-    return length * Settings.units
+function Utils.convert_to_units(tts_length)
+    return tts_length * Settings.units
 end
 
-function Utils.convert_to_units_str(length)
-    return string.format(Settings.format_precision, length) .. ' ' .. Settings.unit_str
+function Utils.convert_to_units_str(tts_length)
+    return string.format(Settings.format_precision, Utils.convert_to_units(tts_length)) .. ' ' .. Settings.unit_str
 end
 
 -- Remove white space from beginning and end of string
