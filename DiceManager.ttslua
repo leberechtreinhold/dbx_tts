@@ -93,7 +93,7 @@ function DiceManager:Create()
         local obj = getObjectFromGUID(self.current_dice[color])
 
         if obj == nil then
-            Logger.error('No dice found, please use !dba_regen_dice')
+            Logger.error('No dice found, please use !' .. Settings.module_name .. '_regen_dice')
             return
         end
 
