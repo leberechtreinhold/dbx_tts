@@ -8,5 +8,6 @@ DBX.History = require('dbx_tts/History')
 DBX.Settings = require('dbx_tts/Settings')
 DBX.Utils = require('dbx_tts/Utils')
 DBX.BasePicker = require('dbx_tts/BasePicker')
+DBX.DiceManager = require('dbx_tts/DiceManager')
 
 return DBX
