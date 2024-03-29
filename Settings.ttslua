@@ -1,5 +1,8 @@
 local Settings = {}
 
+-- The name to use in logs (dba, dbn, dba3...)
+Settings.module_name = 'dba'
+
 -- For base widths, it would be 1/1.574, 'BW', '%.3f'
 Settings.units = 1*100
 Settings.unit_str = 'paces'
