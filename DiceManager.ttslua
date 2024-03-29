@@ -125,13 +125,13 @@ function DiceManager:Create()
 
     function _dice_manager:spawn_all_dice()
         self:delete_all_dice()
-        spawn_dice('red', {x=-0, y=2, z=-20})
-        spawn_dice('yellow', {x=3, y=2, z=-20})
-        spawn_dice('orange', {x=-3, y=2, z=-20})
+        self:spawn_dice('red', {x=-0, y=2, z=-20})
+        self:spawn_dice('yellow', {x=3, y=2, z=-20})
+        self:spawn_dice('orange', {x=-3, y=2, z=-20})
 
-        spawn_dice('blue', {x=0, y=2, z=20})
-        spawn_dice('green', {x=3, y=2, z=20})
-        spawn_dice('purple', {x=-3, y=2, z=20})
+        self:spawn_dice('blue', {x=0, y=2, z=20})
+        self:spawn_dice('green', {x=3, y=2, z=20})
+        self:spawn_dice('purple', {x=-3, y=2, z=20})
     end
 end
 
