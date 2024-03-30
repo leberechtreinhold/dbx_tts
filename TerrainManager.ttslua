@@ -114,7 +114,7 @@ function TerrainManager:Create()
                                     Settings.minimal_collider, true)
             terrain_obj.addAttachment(obj)
         end
-        change_texture_terrain(terrain_obj, random_element(options['texture']))
+        self:change_texture_terrain(terrain_obj, random_element(options['texture']))
     end
 
     function _TerrainManager:set_arid(terrain_obj, terrain_pos, terrain_rotation, terrain_size, table_type)
@@ -127,7 +127,7 @@ function TerrainManager:Create()
                                     Settings.minimal_collider, true)
             terrain_obj.addAttachment(obj)
         end
-        change_texture_terrain(terrain_obj, random_element(options['texture']))
+        self:change_texture_terrain(terrain_obj, random_element(options['texture']))
     end
 
     function _TerrainManager:set_oasis(terrain_obj, terrain_pos, terrain_rotation, terrain_size, table_type)
@@ -142,7 +142,7 @@ function TerrainManager:Create()
                                     Settings.minimal_collider, true)
             terrain_obj.addAttachment(obj)
         end
-        change_texture_terrain(terrain_obj, random_element(options['texture']))
+        self:change_texture_terrain(terrain_obj, random_element(options['texture']))
     end
 
     function _TerrainManager:set_marsh(terrain_obj, terrain_pos, terrain_rotation, terrain_size, table_type)
@@ -157,7 +157,7 @@ function TerrainManager:Create()
                                     Settings.minimal_collider, true)
             terrain_obj.addAttachment(obj)
         end
-        change_texture_terrain(terrain_obj, random_element(options['texture']))
+        self:change_texture_terrain(terrain_obj, random_element(options['texture']))
     end
 
     function _TerrainManager:set_plough(terrain_obj, terrain_pos, terrain_rotation, terrain_size, table_type)
@@ -181,7 +181,7 @@ function TerrainManager:Create()
                 terrain_obj.addAttachment(obj)
             end
         end
-        change_texture_terrain(terrain_obj, random_element(options['texture']))
+        self:change_texture_terrain(terrain_obj, random_element(options['texture']))
     end
 
     function _TerrainManager:set_enclosure(terrain_obj, terrain_pos, terrain_rotation, terrain_size, table_type)
@@ -251,7 +251,7 @@ function TerrainManager:Create()
                                           Settings.minimal_collider, true)
             terrain_obj.addAttachment(obj_right)
         end
-        change_texture_terrain(terrain_obj, random_element(options['texture']))
+        self:change_texture_terrain(terrain_obj, random_element(options['texture']))
     end
 
     function _TerrainManager:set_urban(terrain_obj, terrain_pos, terrain_rotation, terrain_size, table_type)
@@ -273,7 +273,7 @@ function TerrainManager:Create()
                 terrain_obj.addAttachment(obj)
             end
         end
-        change_texture_terrain(terrain_obj, tables[table_type]['blue_player_base_tex'])
+        self:change_texture_terrain(terrain_obj, tables[table_type]['blue_player_base_tex'])
     end
 
     function _TerrainManager:process_vegetation(terrain_obj, type)
