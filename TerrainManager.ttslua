@@ -15,6 +15,10 @@ function TerrainManager:Create()
         g_current_table = guid
     end
     
+    function _TerrainManager:GetTerrainPos()
+        return Settings.base_height_tabletop + Settings.table_thickness
+    end
+    
     function _TerrainManager:snap_waterway(waterway)
         if self:GetCurrentTableGUID() == nil then
             Logger.debug('No table spawned yet, no need to do anything')
@@ -47,7 +51,7 @@ function TerrainManager:Create()
             and Utils.equals_float(pos['x'], 0, Settings.max_camp_edge_snap)
             and Utils.equals_float(pos['z'], zpos, Settings.max_camp_edge_snap) then
 
-            waterway.setPosition({x = 0, y = g_terrain_pos, z = zpos})
+            waterway.setPosition({x = 0, y = self:GetTerrainPos(), z = zpos})
             waterway.setRotation({x = 0, y = 0, z = 0})
             Logger.info('Waterway Snapping top')
 
@@ -55,7 +59,7 @@ function TerrainManager:Create()
             and Utils.equals_float(pos['x'], -xpos, Settings.max_camp_edge_snap)
             and Utils.equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
 
-            waterway.setPosition({x = -xpos, y = g_terrain_pos, z = 0})
+            waterway.setPosition({x = -xpos, y = self:GetTerrainPos(), z = 0})
             waterway.setRotation({x = 0, y = 270, z = 0})
             Logger.info('Waterway Snapping left')
 
@@ -63,7 +67,7 @@ function TerrainManager:Create()
             and Utils.equals_float(pos['x'], 0, Settings.max_camp_edge_snap)
             and Utils.equals_float(pos['z'], -zpos, Settings.max_camp_edge_snap) then
 
-            waterway.setPosition({x = 0, y = g_terrain_pos, z = -zpos})
+            waterway.setPosition({x = 0, y = self:GetTerrainPos(), z = -zpos})
             waterway.setRotation({x = 0, y = 180, z = 0})
             Logger.info('Waterway Snapping bot')
 
@@ -71,7 +75,7 @@ function TerrainManager:Create()
             and Utils.equals_float(pos['x'], xpos, Settings.max_camp_edge_snap)
             and Utils.equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
 
-            waterway.setPosition({x = xpos, y = g_terrain_pos, z = 0})
+            waterway.setPosition({x = xpos, y = self:GetTerrainPos(), z = 0})
             waterway.setRotation({x = 0, y = 90, z = 0})
             Logger.info('Waterway Snapping right')
 
@@ -90,7 +94,7 @@ function TerrainManager:Create()
             or Utils.equals_float(rotation, 2 * math.pi, self.error_margin_radians))
             and Utils.equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
 
-            road.setPosition({x = pos['x'], y = g_terrain_pos, z = 0})
+            road.setPosition({x = pos['x'], y = self:GetTerrainPos(), z = 0})
             road.setRotation({x = 0, y = 0, z = 0})
             Logger.info('Road Snapping Vertical')
 
@@ -98,7 +102,7 @@ function TerrainManager:Create()
             or Utils.equals_float(rotation, 3 * math.pi / 2, self.error_margin_radians))
             and Utils.equals_float(pos['x'], 0, Settings.max_camp_edge_snap) then
 
-            road.setPosition({x = 0, y = g_terrain_pos, z = pos['z']})
+            road.setPosition({x = 0, y = self:GetTerrainPos(), z = pos['z']})
             road.setRotation({x = 0, y = 90, z = 0})
             Logger.info('Road Snapping Horizontal')
 
@@ -355,7 +359,7 @@ function TerrainManager:Create()
 
                 local current_pos = terrain.getPosition()
                 Logger.debug('The terrain had position ' .. vec_to_str(current_pos))
-                current_pos.y = g_terrain_pos
+                current_pos.y = self:GetTerrainPos()
                 terrain.setPosition(current_pos)
 
                 Wait.frames(function()
@@ -371,7 +375,7 @@ function TerrainManager:Create()
         Wait.frames(function()
             self:SetCurrentTableGUID(gametable.getGUID())
             gametable.setRotation({x = 0, y = 0, z = 0})
-            gametable.setPosition({x = 0, y = g_base_height_tabletop, z = 0})
+            gametable.setPosition({x = 0, y = Settings.base_height_tabletop, z = 0})
             gametable.setLock(true)
             self.is_table_locked = true
             Logger.important('Table is now locked')

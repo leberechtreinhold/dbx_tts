@@ -14,6 +14,12 @@ Settings.base_width_inches = 1.5748031496062992126
 -- All bases are 3mm tall
 Settings.base_height_inches = 0.11811023622047244094
 
+-- The default table is not at y=0 position, but rather a bit higher
+Settings.base_height_tabletop = 1.06
+
+-- The DBA tables are 3mm thick/tall
+Settings.table_thickness = 0.11811023622047244094
+
 -- When drawing a circle (moving troops, or bow arcs, we use a certain
 -- number of points (they are straight lines), this marks how many points
 -- Must be divisible by 4
