@@ -4,6 +4,7 @@ function TerrainManager:Create()
     local _TerrainManager = {}
     _TerrainManager.is_table_locked = false
     _TerrainManager.error_margin_radians = 0.17
+    _TerrainManager.use_3d_terrain = Settings.default_use_3d_terrain
 
     function _TerrainManager:GetCurrentTableGUID()
         -- TODO: Update with TableManager
@@ -13,6 +14,14 @@ function TerrainManager:Create()
     function _TerrainManager:SetCurrentTableGUID(guid)
         -- TODO: Update with TableManager
         g_current_table = guid
+    end
+    
+    function _TerrainManager:set_use_3d_terrain(value)
+        self.use_3d_terrain = value
+    end
+    
+    function _TerrainManager:is_use_3d_terrain()
+        return self.use_3d_terrain
     end
     
     function _TerrainManager:GetTerrainPos()
@@ -363,7 +372,7 @@ function TerrainManager:Create()
                 terrain.setPosition(current_pos)
 
                 Wait.frames(function()
-                    if g_use_3d_terrain then
+                    if self:is_use_3d_terrain() then
                         self:process_vegetation(terrain, terrain_type)
                     end
 
