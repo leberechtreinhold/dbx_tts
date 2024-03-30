@@ -48,15 +48,12 @@ function History.apply_move(move, forward)
         end
 
         if base_obj == nil then
-            Logger.error('Cannot apply this move '
-                        .. 'because it involves a deleted unit '
-                        .. 'or something that cannot be found: '
-                        .. base_name)
+            Logger.error('Cannot apply this move ' .. 'because it involves a deleted unit '
+                             .. 'or something that cannot be found: ' .. base_name)
             return
         end
         base_objs[base_name] = base_obj
     end
-
 
     for base_name, transforms in pairs(move) do
         Logger.debug('Applying move to ' .. base_name)
@@ -93,6 +90,5 @@ function History.go_forward_history_stack()
     History.apply_move(last_move, true)
     draw_all_gizmos()
 end
-
 
 return History
