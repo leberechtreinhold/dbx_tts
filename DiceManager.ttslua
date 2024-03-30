@@ -133,6 +133,8 @@ function DiceManager:Create()
         self:spawn_dice('green', {x=3, y=2, z=20})
         self:spawn_dice('purple', {x=-3, y=2, z=20})
     end
+
+    return _dice_manager
 end
 
 return DiceManager
