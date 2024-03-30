@@ -42,34 +42,34 @@ function TerrainManager:Create()
             xpos = xpos + table_w / 2
         end
 
-        if (equals_float(rotation, 0, self.error_margin_radians)
-            or equals_float(rotation, 2 * math.pi, self.error_margin_radians))
-            and equals_float(pos['x'], 0, Settings.max_camp_edge_snap)
-            and equals_float(pos['z'], zpos, Settings.max_camp_edge_snap) then
+        if (Utils.equals_float(rotation, 0, self.error_margin_radians)
+            or Utils.equals_float(rotation, 2 * math.pi, self.error_margin_radians))
+            and Utils.equals_float(pos['x'], 0, Settings.max_camp_edge_snap)
+            and Utils.equals_float(pos['z'], zpos, Settings.max_camp_edge_snap) then
 
             waterway.setPosition({x = 0, y = g_terrain_pos, z = zpos})
             waterway.setRotation({x = 0, y = 0, z = 0})
             Logger.info('Waterway Snapping top')
 
-        elseif equals_float(rotation, math.pi / 2, self.error_margin_radians)
-            and equals_float(pos['x'], -xpos, Settings.max_camp_edge_snap)
-            and equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
+        elseif Utils.equals_float(rotation, math.pi / 2, self.error_margin_radians)
+            and Utils.equals_float(pos['x'], -xpos, Settings.max_camp_edge_snap)
+            and Utils.equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
 
             waterway.setPosition({x = -xpos, y = g_terrain_pos, z = 0})
             waterway.setRotation({x = 0, y = 270, z = 0})
             Logger.info('Waterway Snapping left')
 
-        elseif equals_float(rotation, math.pi, self.error_margin_radians)
-            and equals_float(pos['x'], 0, Settings.max_camp_edge_snap)
-            and equals_float(pos['z'], -zpos, Settings.max_camp_edge_snap) then
+        elseif Utils.equals_float(rotation, math.pi, self.error_margin_radians)
+            and Utils.equals_float(pos['x'], 0, Settings.max_camp_edge_snap)
+            and Utils.equals_float(pos['z'], -zpos, Settings.max_camp_edge_snap) then
 
             waterway.setPosition({x = 0, y = g_terrain_pos, z = -zpos})
             waterway.setRotation({x = 0, y = 180, z = 0})
             Logger.info('Waterway Snapping bot')
 
-        elseif equals_float(rotation, math.pi * 3 / 2, self.error_margin_radians)
-            and equals_float(pos['x'], xpos, Settings.max_camp_edge_snap)
-            and equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
+        elseif Utils.equals_float(rotation, math.pi * 3 / 2, self.error_margin_radians)
+            and Utils.equals_float(pos['x'], xpos, Settings.max_camp_edge_snap)
+            and Utils.equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
 
             waterway.setPosition({x = xpos, y = g_terrain_pos, z = 0})
             waterway.setRotation({x = 0, y = 90, z = 0})
@@ -85,18 +85,18 @@ function TerrainManager:Create()
         local rotation = normalize_angle(math.rad(road.getRotation()['y']))
         local pos = road.getPosition()
 
-        if (equals_float(rotation, 0, self.error_margin_radians)
-            or equals_float(rotation, math.pi, self.error_margin_radians)
-            or equals_float(rotation, 2 * math.pi, self.error_margin_radians))
-            and equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
+        if (Utils.equals_float(rotation, 0, self.error_margin_radians)
+            or Utils.equals_float(rotation, math.pi, self.error_margin_radians)
+            or Utils.equals_float(rotation, 2 * math.pi, self.error_margin_radians))
+            and Utils.equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
 
             road.setPosition({x = pos['x'], y = g_terrain_pos, z = 0})
             road.setRotation({x = 0, y = 0, z = 0})
             Logger.info('Road Snapping Vertical')
 
-        elseif (equals_float(rotation, math.pi / 2, self.error_margin_radians)
-            or equals_float(rotation, 3 * math.pi / 2, self.error_margin_radians))
-            and equals_float(pos['x'], 0, Settings.max_camp_edge_snap) then
+        elseif (Utils.equals_float(rotation, math.pi / 2, self.error_margin_radians)
+            or Utils.equals_float(rotation, 3 * math.pi / 2, self.error_margin_radians))
+            and Utils.equals_float(pos['x'], 0, Settings.max_camp_edge_snap) then
 
             road.setPosition({x = 0, y = g_terrain_pos, z = pos['z']})
             road.setRotation({x = 0, y = 90, z = 0})
