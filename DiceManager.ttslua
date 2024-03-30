@@ -1,6 +1,6 @@
 local DiceManager = {}
 
-function DiceManager:Create() 
+function DiceManager:Create()
     local _DiceManager = {}
     _DiceManager.current_dice = {}
     _DiceManager.rolled_dice = {}
@@ -13,21 +13,21 @@ function DiceManager:Create()
             orange = 'http://cloud-3.steamusercontent.com/ugc/1483325549676274480/808C5CD28B88A16216E1B839F8E14CA2BF471313/',
             blue = 'http://cloud-3.steamusercontent.com/ugc/1483325549676274109/0F5FCBE607B4453933F9E8A53D872C3702C01BC4/',
             green = 'http://cloud-3.steamusercontent.com/ugc/1483325549676274294/CA1F620A7D011294B45DC69300E3768BC7F44274/',
-            purple = 'http://cloud-3.steamusercontent.com/ugc/1483325549676274658/1AB60B1B387B6A036D74D62E05DE49854F1285BB/',
+            purple = 'http://cloud-3.steamusercontent.com/ugc/1483325549676274658/1AB60B1B387B6A036D74D62E05DE49854F1285BB/'
         }
     }
-    
+
     function _DiceManager:spawn_dice(color, pos)
         local obj = spawnObject({
             type = 'Custom_Model',
             position = pos,
-            rotation = { x = 0, y = 0, z = 0},
-            scale = { x = 0.75, y = 0.75, z = 0.75},
+            rotation = {x = 0, y = 0, z = 0},
+            scale = {x = 0.75, y = 0.75, z = 0.75},
             sound = false,
             snap_to_grid = false,
             callback_function = function(obj)
                 self.current_dice[color] = obj.getGUID()
-                
+
                 Logger.debug('Spawned ' .. color .. ' with guid ' .. self.current_dice[color])
             end
         })
@@ -42,12 +42,12 @@ function DiceManager:Create()
             freshnel_strength = 0
         })
         obj.setRotationValues({
-            {value=1, rotation={x=0, y=0, z=0}},
-            {value=2, rotation={x=0, y=0, z=270}},
-            {value=3, rotation={x=270, y=0, z=0}},
-            {value=4, rotation={x=90, y=0, z=0}},
-            {value=5, rotation={x=0, y=0, z=90}},
-            {value=6, rotation={x=0, y=0, z=180}}
+            {value = 1, rotation = {x = 0, y = 0, z = 0}},
+            {value = 2, rotation = {x = 0, y = 0, z = 270}},
+            {value = 3, rotation = {x = 270, y = 0, z = 0}},
+            {value = 4, rotation = {x = 90, y = 0, z = 0}},
+            {value = 5, rotation = {x = 0, y = 0, z = 90}},
+            {value = 6, rotation = {x = 0, y = 0, z = 180}}
         })
         obj.mass = 1.5
         obj.setName('PIP dice ' .. color)
@@ -97,7 +97,7 @@ function DiceManager:Create()
             return
         end
 
-        local val = math.random(1,6)
+        local val = math.random(1, 6)
         local dice_id = 'text_pips_player_' .. color
         UI.setValue(dice_id, val)
         obj.setValue(val)
@@ -114,7 +114,7 @@ function DiceManager:Create()
 
     function _DiceManager:delete_all_dice()
         local all_objs = getAllObjects()
-        for _,obj in ipairs(all_objs) do
+        for _, obj in ipairs(all_objs) do
             local name = obj.getName()
             if str_starts_with(name, 'PIP dice') then
                 obj.destroy()
@@ -125,13 +125,13 @@ function DiceManager:Create()
 
     function _DiceManager:spawn_all_dice()
         self:delete_all_dice()
-        self:spawn_dice('red', {x=-0, y=2, z=-20})
-        self:spawn_dice('yellow', {x=3, y=2, z=-20})
-        self:spawn_dice('orange', {x=-3, y=2, z=-20})
+        self:spawn_dice('red', {x = -0, y = 2, z = -20})
+        self:spawn_dice('yellow', {x = 3, y = 2, z = -20})
+        self:spawn_dice('orange', {x = -3, y = 2, z = -20})
 
-        self:spawn_dice('blue', {x=0, y=2, z=20})
-        self:spawn_dice('green', {x=3, y=2, z=20})
-        self:spawn_dice('purple', {x=-3, y=2, z=20})
+        self:spawn_dice('blue', {x = 0, y = 2, z = 20})
+        self:spawn_dice('green', {x = 3, y = 2, z = 20})
+        self:spawn_dice('purple', {x = -3, y = 2, z = 20})
     end
 
     return _DiceManager

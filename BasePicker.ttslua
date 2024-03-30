@@ -2,10 +2,10 @@ local BasePicker = {}
 
 function BasePicker:Create()
     local _basepicker = {}
-    
+
     _basepicker.picked_base_obj = nil
     _basepicker.picked_base_initial_transform = nil
-    
+
     -- The Rotate event fires while the user has the rotation key or wheel pressed
     -- To detect the start and end, we flag each firing with an id that keeps increasing
     -- The first event firing will be 1, next will be 2. On each of those we will
@@ -14,27 +14,26 @@ function BasePicker:Create()
     _basepicker.rotating_id = 0
     _basepicker.rotating_base_initial_transform = nil
 
-
-    function _basepicker:on_object_pickup(player_color,  picked_up_object)
+    function _basepicker:on_object_pickup(player_color, picked_up_object)
         if g_bases[Utils.get_original_name(picked_up_object.getName())] == nil then
             return
         end
-    
+
         local objs = filter_bases(Player[player_color].getSelectedObjects())
         local n_objs = tlen(objs)
         if n_objs > 1 then
             -- Ignoring this, we don't want to print the circle for more than one unit
             return
         end
-    
+
         if self.picked_base_obj ~= nil then
             Logger.error("There's already a player picking up an object. Please, wait until he finishes moving.")
             return
         end
-    
+
         self.picked_base_obj = picked_up_object
         self.picked_base_initial_transform = calculate_transform(picked_up_object)
-    
+
         draw_all_gizmos()
     end
 
@@ -42,18 +41,18 @@ function BasePicker:Create()
         if g_bases[Utils.get_original_name(obj.getName())] == nil then
             return
         end
-    
+
         if self.picked_base_obj ~= nil then
             return
         end
-    
+
         if self.rotating_id == 0 then
             self.rotating_base_initial_transform = calculate_transform(obj)
         end
         self.rotating_id = self.rotating_id + 1
-        local id = self.rotating_id 
-    
-        Wait.time(function ()
+        local id = self.rotating_id
+
+        Wait.time(function()
             if id == self.rotating_id then
                 self:on_object_rotate_end(obj, self.rotating_base_initial_transform)
                 self.rotating_id = 0
@@ -68,9 +67,9 @@ function BasePicker:Create()
         local move = {}
         History.add_transform_to_move(move, obj.getName(), initial_transform, new_transform)
         History.push_to_history_stack(move)
-    end 
-    
-    function _basepicker:on_object_drop(player_color,  picked_up_object)
+    end
+
+    function _basepicker:on_object_drop(player_color, picked_up_object)
         local obj_name = picked_up_object.getName()
         if (str_has_substr(obj_name, 'Waterway')) then
             snap_waterway(picked_up_object)
@@ -85,8 +84,8 @@ function BasePicker:Create()
         local objs = filter_bases(Player[player_color].getSelectedObjects())
         local n_objs = tlen(objs)
         if n_objs > 1 then
-            picked_up_object.setVelocity({x=0, y=0, z=0})
-            picked_up_object.setAngularVelocity({x=0, y=0, z=0})
+            picked_up_object.setVelocity({x = 0, y = 0, z = 0})
+            picked_up_object.setAngularVelocity({x = 0, y = 0, z = 0})
             draw_all_gizmos()
             return
         end
@@ -98,8 +97,8 @@ function BasePicker:Create()
 
         local new_transform = nil
 
-        picked_up_object.setVelocity({x=0, y=0, z=0})
-        picked_up_object.setAngularVelocity({x=0, y=0, z=0})
+        picked_up_object.setVelocity({x = 0, y = 0, z = 0})
+        picked_up_object.setAngularVelocity({x = 0, y = 0, z = 0})
         if g_snap_mode_enabled then
             new_transform = snap_picked_base(picked_up_object)
         else
@@ -108,9 +107,8 @@ function BasePicker:Create()
 
         Logger.debug('New transform: ' .. transform_to_str(new_transform))
         Logger.debug('New picked_base_initial_transform: ' .. transform_to_str(self.picked_base_initial_transform))
-        local distance = max_distance_between_bases(
-            new_transform['corners'],
-            self.picked_base_initial_transform.corners)
+        local distance =
+            max_distance_between_bases(new_transform['corners'], self.picked_base_initial_transform.corners)
 
         if distance > 0 then
             Logger.info(string.format('Movement for %s is %s', obj_name, Utils.convert_to_units_str(distance)))
@@ -138,8 +136,7 @@ function BasePicker:Create()
             local distance = max_distance_between_bases(new_corners, self.picked_base_initial_transform.corners)
 
             UI.setAttribute('panel_current_movement', 'active', true)
-            UI.setValue('text_current_movement_paces',
-                'Current movement: ' .. Utils.convert_to_units_str(distance))
+            UI.setValue('text_current_movement_paces', 'Current movement: ' .. Utils.convert_to_units_str(distance))
         else
             UI.setAttribute('panel_current_movement', 'active', false)
         end
@@ -147,6 +144,5 @@ function BasePicker:Create()
 
     return _basepicker
 end
-
 
 return BasePicker;

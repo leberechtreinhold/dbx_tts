@@ -28,36 +28,38 @@ function TerrainManager:Create()
         local h = bounds['size']['z']
         local zpos = table_h / 2 - (h / 2 - bounds['offset']['z'])
         local xpos = table_w / 2 - (h / 2 - bounds['offset']['z'])
-        if g_is_double_dba then xpos = xpos + table_w / 2 end
+        if g_is_double_dba then
+            xpos = xpos + table_w / 2
+        end
 
-        if (equals_float(rotation, 0, self.error_margin_radians) or
-            equals_float(rotation, 2 * math.pi, self.error_margin_radians)) and
-            equals_float(pos['x'], 0, Settings.max_camp_edge_snap) and
-            equals_float(pos['z'], zpos, Settings.max_camp_edge_snap) then
+        if (equals_float(rotation, 0, self.error_margin_radians)
+            or equals_float(rotation, 2 * math.pi, self.error_margin_radians))
+            and equals_float(pos['x'], 0, Settings.max_camp_edge_snap)
+            and equals_float(pos['z'], zpos, Settings.max_camp_edge_snap) then
 
             waterway.setPosition({x = 0, y = g_terrain_pos, z = zpos})
             waterway.setRotation({x = 0, y = 0, z = 0})
             Logger.info('Waterway Snapping top')
 
-        elseif equals_float(rotation, math.pi / 2, self.error_margin_radians) and
-            equals_float(pos['x'], -xpos, Settings.max_camp_edge_snap) and
-            equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
+        elseif equals_float(rotation, math.pi / 2, self.error_margin_radians)
+            and equals_float(pos['x'], -xpos, Settings.max_camp_edge_snap)
+            and equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
 
             waterway.setPosition({x = -xpos, y = g_terrain_pos, z = 0})
             waterway.setRotation({x = 0, y = 270, z = 0})
             Logger.info('Waterway Snapping left')
 
-        elseif equals_float(rotation, math.pi, self.error_margin_radians) and
-            equals_float(pos['x'], 0, Settings.max_camp_edge_snap) and
-            equals_float(pos['z'], -zpos, Settings.max_camp_edge_snap) then
+        elseif equals_float(rotation, math.pi, self.error_margin_radians)
+            and equals_float(pos['x'], 0, Settings.max_camp_edge_snap)
+            and equals_float(pos['z'], -zpos, Settings.max_camp_edge_snap) then
 
             waterway.setPosition({x = 0, y = g_terrain_pos, z = -zpos})
             waterway.setRotation({x = 0, y = 180, z = 0})
             Logger.info('Waterway Snapping bot')
 
-        elseif equals_float(rotation, math.pi * 3 / 2, self.error_margin_radians) and
-            equals_float(pos['x'], xpos, Settings.max_camp_edge_snap) and
-            equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
+        elseif equals_float(rotation, math.pi * 3 / 2, self.error_margin_radians)
+            and equals_float(pos['x'], xpos, Settings.max_camp_edge_snap)
+            and equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
 
             waterway.setPosition({x = xpos, y = g_terrain_pos, z = 0})
             waterway.setRotation({x = 0, y = 90, z = 0})
@@ -73,18 +75,18 @@ function TerrainManager:Create()
         local rotation = normalize_angle(math.rad(road.getRotation()['y']))
         local pos = road.getPosition()
 
-        if (equals_float(rotation, 0, self.error_margin_radians) or
-            equals_float(rotation, math.pi, self.error_margin_radians) or
-            equals_float(rotation, 2 * math.pi, self.error_margin_radians)) and
-            equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
+        if (equals_float(rotation, 0, self.error_margin_radians)
+            or equals_float(rotation, math.pi, self.error_margin_radians)
+            or equals_float(rotation, 2 * math.pi, self.error_margin_radians))
+            and equals_float(pos['z'], 0, Settings.max_camp_edge_snap) then
 
             road.setPosition({x = pos['x'], y = g_terrain_pos, z = 0})
             road.setRotation({x = 0, y = 0, z = 0})
             Logger.info('Road Snapping Vertical')
 
-        elseif (equals_float(rotation, math.pi / 2, self.error_margin_radians) or
-            equals_float(rotation, 3 * math.pi / 2, self.error_margin_radians)) and
-            equals_float(pos['x'], 0, Settings.max_camp_edge_snap) then
+        elseif (equals_float(rotation, math.pi / 2, self.error_margin_radians)
+            or equals_float(rotation, 3 * math.pi / 2, self.error_margin_radians))
+            and equals_float(pos['x'], 0, Settings.max_camp_edge_snap) then
 
             road.setPosition({x = 0, y = g_terrain_pos, z = pos['z']})
             road.setRotation({x = 0, y = 90, z = 0})
@@ -259,11 +261,11 @@ function TerrainManager:Create()
         for i = 1, rows do
             for j = 1, cols do
                 local point = {
-                    x = (i / rows) * terrain_size['x'] - terrain_size['x'] / 2 - terrain_size['x'] / (rows * 2) +
-                        (math.random() * 2 - 1) * 0.3,
+                    x = (i / rows) * terrain_size['x'] - terrain_size['x'] / 2 - terrain_size['x'] / (rows * 2)
+                        + (math.random() * 2 - 1) * 0.3,
                     y = 0,
-                    z = (j / cols) * terrain_size['z'] - terrain_size['z'] / 2 - terrain_size['z'] / (cols * 2) +
-                        (math.random() * 2 - 1) * 0.3
+                    z = (j / cols) * terrain_size['z'] - terrain_size['z'] / 2 - terrain_size['z'] / (cols * 2)
+                        + (math.random() * 2 - 1) * 0.3
                 }
                 new_pos = rotate_point_relative(point, terrain_pos, terrain_rotation)
                 local obj = spawn_model(random_element(options['objects']), new_pos, math.random(1, 359),
@@ -307,7 +309,9 @@ function TerrainManager:Create()
         local terrains = {}
         for _, obj in ipairs(all_objs) do
             local name = obj.getName()
-            if str_starts_with(name, 'terrain') then table.insert(terrains, obj) end
+            if str_starts_with(name, 'terrain') then
+                table.insert(terrains, obj)
+            end
         end
 
         local gametable = getObjectFromGUID(g_current_table)
@@ -345,7 +349,9 @@ function TerrainManager:Create()
                 terrain.setPosition(current_pos)
 
                 Wait.frames(function()
-                    if g_use_3d_terrain then self:process_vegetation(terrain, terrain_type) end
+                    if g_use_3d_terrain then
+                        self:process_vegetation(terrain, terrain_type)
+                    end
 
                     gametable.addAttachment(terrain)
                     Logger.info('Attaching ' .. terrain.getName())
@@ -362,7 +368,9 @@ function TerrainManager:Create()
         end, 1)
     end
 
-    function _TerrainManager:IsTableLocked() return self.is_table_locked end
+    function _TerrainManager:IsTableLocked()
+        return self.is_table_locked
+    end
     return _TerrainManager
 end
 
