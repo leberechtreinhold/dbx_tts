@@ -281,26 +281,26 @@ function TerrainManager:Create()
         local terrain_rotation = normalize_angle(math.rad(terrain_obj.getRotation()['y']))
         local terrain_size = terrain_obj.getBoundsNormalized()['size']
         if str_starts_with(terrain_obj.getName(), 'terrain Forest') then
-            set_forest(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
+            self:set_forest(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
         end
         if str_starts_with(terrain_obj.getName(), 'terrain Arid') then
-            set_arid(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
+            self:set_arid(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
         end
         if str_starts_with(terrain_obj.getName(), 'terrain Oasis') then
-            set_oasis(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
+            self:set_oasis(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
         end
         if str_starts_with(terrain_obj.getName(), 'terrain Plough') then
-            set_plough(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
+            self:set_plough(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
         end
         if str_starts_with(terrain_obj.getName(), 'terrain Enclosure') then
-            set_enclosure(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
+            self:set_enclosure(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
         end
         if str_starts_with(terrain_obj.getName(), 'terrain Marsh') then
-            set_marsh(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
+            self:set_marsh(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
         end
         if str_starts_with(terrain_obj.getName(), 'terrain BUA') then
             Logger.error('BUA')
-            set_urban(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
+            self:set_urban(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
         end
     end
 
