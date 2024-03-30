@@ -1,10 +1,10 @@
 local DiceManager = {}
 
 function DiceManager:Create() 
-    local _dice_manager = {}
-    _dice_manager.current_dice = {}
-    _dice_manager.rolled_dice = {}
-    _dice_manager.data_dice = {
+    local _DiceManager = {}
+    _DiceManager.current_dice = {}
+    _DiceManager.rolled_dice = {}
+    _DiceManager.data_dice = {
         mesh = 'http://cloud-3.steamusercontent.com/ugc/1667985477144749065/BB7C61EB29049DFAE25D8FDD72B8D85B9D75CB75/',
         textures = {
             -- Dice textures by Eric Delemer
@@ -17,7 +17,7 @@ function DiceManager:Create()
         }
     }
     
-    function _dice_manager:spawn_dice(color, pos)
+    function _DiceManager:spawn_dice(color, pos)
         local obj = spawnObject({
             type = 'Custom_Model',
             position = pos,
@@ -89,7 +89,7 @@ function DiceManager:Create()
         obj.setLuaScript(code)
     end
 
-    function _dice_manager:roll_dice(color)
+    function _DiceManager:roll_dice(color)
         local obj = getObjectFromGUID(self.current_dice[color])
 
         if obj == nil then
@@ -112,7 +112,7 @@ function DiceManager:Create()
         return val
     end
 
-    function _dice_manager:delete_all_dice()
+    function _DiceManager:delete_all_dice()
         local all_objs = getAllObjects()
         for _,obj in ipairs(all_objs) do
             local name = obj.getName()
@@ -123,7 +123,7 @@ function DiceManager:Create()
         self.current_dice = {}
     end
 
-    function _dice_manager:spawn_all_dice()
+    function _DiceManager:spawn_all_dice()
         self:delete_all_dice()
         self:spawn_dice('red', {x=-0, y=2, z=-20})
         self:spawn_dice('yellow', {x=3, y=2, z=-20})
@@ -134,7 +134,7 @@ function DiceManager:Create()
         self:spawn_dice('purple', {x=-3, y=2, z=20})
     end
 
-    return _dice_manager
+    return _DiceManager
 end
 
 return DiceManager
