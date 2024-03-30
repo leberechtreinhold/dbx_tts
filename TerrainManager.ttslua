@@ -345,7 +345,7 @@ function TerrainManager:Create()
                 terrain.setPosition(current_pos)
 
                 Wait.frames(function()
-                    if g_use_3d_terrain then process_vegetation(terrain, terrain_type) end
+                    if g_use_3d_terrain then self:process_vegetation(terrain, terrain_type) end
 
                     gametable.addAttachment(terrain)
                     Logger.info('Attaching ' .. terrain.getName())
