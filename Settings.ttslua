@@ -11,6 +11,9 @@ Settings.format_precision = '%.1f'
 -- If we want to create 3d elements on terrain by default
 Settings.default_use_3d_terrain = true
 
+-- If the table can be rotated, we will attach terrain to it. If not, we will make terrain uninteractable which is berter
+Settings.table_can_rotate = true
+
 -- All bases have 40mm width
 Settings.base_width_inches = 1.5748031496062992126
 

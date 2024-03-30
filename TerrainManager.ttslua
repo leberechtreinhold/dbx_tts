@@ -10,24 +10,24 @@ function TerrainManager:Create()
         -- TODO: Update with TableManager
         return g_current_table
     end
-    
+
     function _TerrainManager:SetCurrentTableGUID(guid)
         -- TODO: Update with TableManager
         g_current_table = guid
     end
-    
+
     function _TerrainManager:set_use_3d_terrain(value)
         self.use_3d_terrain = value
     end
-    
+
     function _TerrainManager:is_use_3d_terrain()
         return self.use_3d_terrain
     end
-    
+
     function _TerrainManager:get_terrain_pos()
         return Settings.base_height_tabletop + Settings.table_thickness
     end
-    
+
     function _TerrainManager:snap_waterway(waterway)
         if self:GetCurrentTableGUID() == nil then
             Logger.debug('No table spawned yet, no need to do anything')
@@ -372,12 +372,23 @@ function TerrainManager:Create()
                 terrain.setPosition(current_pos)
 
                 Wait.frames(function()
-                    if self:is_use_3d_terrain() then
-                        self:process_vegetation(terrain, terrain_type)
-                    end
+                    if Settings.table_can_rotate then
+                        if self:is_use_3d_terrain() then
+                            self:process_vegetation(terrain, terrain_type)
+                        end
 
-                    gametable.addAttachment(terrain)
-                    Logger.info('Attaching ' .. terrain.getName())
+                        gametable.addAttachment(terrain)
+
+                        Logger.info('Attaching ' .. terrain.getName())
+                    else
+                        if self:is_use_3d_terrain() then
+                            Logger.error('3D terrain is not supported with non-rotating tables!')
+                        end
+                        terrain.setLock(true)
+                        terrain.interactable = false
+
+                        Logger.info('Locking ' .. terrain.getName())
+                    end
                 end, 1)
             end
         end
