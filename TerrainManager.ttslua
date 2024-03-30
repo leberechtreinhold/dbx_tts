@@ -3,7 +3,7 @@ local TerrainManager = {}
 function TerrainManager:Create()
     local _TerrainManager = {}
     _TerrainManager.is_table_locked = false
-    _TerrainManager.error_margin_radians = 0.17
+    _TerrainManager.error_margin_radians = math.rad(10)
     _TerrainManager.use_3d_terrain = Settings.default_use_3d_terrain
 
     function _TerrainManager:GetCurrentTableGUID()
