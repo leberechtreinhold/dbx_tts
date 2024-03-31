@@ -326,6 +326,84 @@ function TerrainManager:Create()
         end
     end
 
+    function _TerrainManager:inspect_colliders(obj, str_parent)
+        if obj == nil then
+            Logger.error("Cannot inspect collider of non existent obj")
+            return
+        end
+
+        local name = str_parent .. "." .. obj.name
+        local components = obj.getComponents()
+        if tlen(components) > 0 then
+            for _, component in pairs(components) do                
+                if str_has_substr(component.name, "Collider") then
+                    Logger.info("Found " .. name .. "." .. component.game_object.name .. "." .. component.name
+                                    .. " -> enabled " .. Utils.bool_to_str(component.get("enabled")))
+                elseif component.name == "Rigidbody" then
+                    Logger.info("Found " .. name .. "." .. component.game_object.name .. "." .. component.name
+                                    .. " -> detectCollisions: " .. Utils.bool_to_str(component.get("detectCollisions")))
+                else
+                    Logger.info("Found " .. name .. "." .. component.game_object.name .. "." .. component.name)
+                end
+            end
+        end
+
+        local children = obj.getChildren()
+        if tlen(children) == 0 then
+            return
+        end
+
+        for _, child in pairs(children) do
+            self:inspect_colliders(child, name)
+        end
+    end
+
+    -- Dont use directly, use remove_collider_attached
+    function _TerrainManager:remove_collider_children(obj, str_parent)
+        local name = str_parent .. "." .. obj.name
+        local components = obj.getComponents()
+        if tlen(components) > 0 then
+            for _, component in pairs(components) do
+                Logger.debug("Found " .. name .. "." .. component.name)
+                if str_has_substr(component.name, "Collider") then
+                    component.set("enabled", false)
+                elseif component.name == "Rigidbody" then
+                    component.set("detectCollisions", false)
+                end
+            end
+        end
+
+        local children = obj.getChildren()
+        if tlen(children) == 0 then
+            return
+        end
+
+        for _, child in pairs(children) do
+            self:remove_collider_children(child, name)
+        end
+    end
+
+    -- Disabled the collision of anything attached to this object, but not itself
+    function _TerrainManager:remove_collider_attached(obj)
+        if obj == nil then
+            Logger.error("Cannot remove collider of non existent obj")
+            return
+        end
+
+        local name = obj.getName()
+        Logger.debug("before get child")
+        local children = obj.getChildren()
+        if tlen(children) == 0 then
+            Logger.debug("Obj " .. name .. " has no children")
+            return
+        end
+        Logger.debug("after get child")
+
+        for _, child in pairs(children) do
+            self:remove_collider_children(child, name)
+        end
+    end
+
     function _TerrainManager:fix_terrain_and_lock()
         local all_objs = getAllObjects()
         local terrains = {}
@@ -375,9 +453,7 @@ function TerrainManager:Create()
                         if self:is_use_3d_terrain() then
                             self:process_vegetation(terrain, terrain_type)
                         end
-
                         gametable.addAttachment(terrain)
-
                         Logger.info('Attaching ' .. terrain.getName())
                     else
                         if self:is_use_3d_terrain() then
@@ -391,6 +467,17 @@ function TerrainManager:Create()
                 end, 1)
             end
         end
+        
+        -- Order is *VERY* important here. All elements must be fully attached/noninteractable
+        -- and a frame must pass before we change components, otherwise they will revert back
+        -- Since that happens on frame 1, we must do this on frame 2. Note that this is per
+        -- table and takes care of all elements, so we cannot add it in the per terrain element
+        -- frame call
+        -- And the table lock must happen on a third frame after that!
+        Wait.frames(function()
+            self:remove_collider_attached(gametable)
+            --self:inspect_colliders(gametable, "gametable")
+        end, 2)
         Wait.frames(function()
             self:SetCurrentTableGUID(gametable.getGUID())
             gametable.setRotation({x = 0, y = 0, z = 0})
@@ -398,7 +485,7 @@ function TerrainManager:Create()
             gametable.setLock(true)
             self.is_table_locked = true
             Logger.important('Table is now locked')
-        end, 1)
+        end, 3)
     end
 
     function _TerrainManager:IsTableLocked()

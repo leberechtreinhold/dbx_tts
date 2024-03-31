@@ -13,6 +13,13 @@ function Utils.str_trim(str)
   return str:gsub("^%s*(.-)%s*$", "%1")
 end
 
+function Utils.bool_to_str(val)
+    if val then
+        return "true"
+    end
+    return "false"
+end
+
 -- Removes the damaged portion of the name so it can be used on the g_bases
 function Utils.get_original_name(base_name)
     base_name = base_name:gsub('%[%a+%]', '')
