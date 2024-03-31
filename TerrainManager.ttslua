@@ -322,7 +322,6 @@ function TerrainManager:Create()
             self:set_marsh(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
         end
         if str_starts_with(terrain_obj.getName(), 'terrain BUA') then
-            Logger.error('BUA')
             self:set_urban(terrain_obj, terrain_pos, terrain_rotation, terrain_size, type)
         end
     end
