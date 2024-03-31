@@ -8,6 +8,10 @@ function Utils.convert_to_units_str(tts_length)
     return string.format(Settings.format_precision, Utils.convert_to_units(tts_length)) .. ' ' .. Settings.unit_str
 end
 
+function Utils.from_mm_to_in(mm)
+    return mm / 25.4
+end
+
 -- Remove white space from beginning and end of string
 function Utils.str_trim(str)
   return str:gsub("^%s*(.-)%s*$", "%1")
