@@ -136,7 +136,7 @@ function BasePicker:Create()
             local distance = max_distance_between_bases(new_corners, self.picked_base_initial_transform.corners)
 
             UI.setAttribute('panel_current_movement', 'active', true)
-            UI.setValue('text_current_movement_paces', 'Current movement: ' .. Utils.convert_to_units_str(distance))
+            UI.setValue('text_current_movement', 'Current movement: ' .. Utils.convert_to_units_str(distance))
         else
             UI.setAttribute('panel_current_movement', 'active', false)
         end
