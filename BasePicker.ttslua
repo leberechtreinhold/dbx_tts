@@ -69,7 +69,7 @@ function BasePicker:Create()
         History.push_to_history_stack(move)
     end
 
-    function _BasePicker:on_object_drop(player_color, picked_up_object)
+    function _BasePicker:on_object_drop(player_color, picked_up_object, opt_ignore_base_drop)
         local obj_name = picked_up_object.getName()
         if (str_has_substr(obj_name, 'Waterway')) then
             TerrainManager:snap_waterway(picked_up_object)
@@ -78,6 +78,14 @@ function BasePicker:Create()
         end
 
         if g_bases[Utils.get_original_name(obj_name)] == nil then
+            return
+        end
+
+        if opt_ignore_base_drop then
+            self.picked_base_obj = nil
+            self.picked_base_initial_transform = nil
+            Global.setVectorLines({})
+            draw_all_gizmos()
             return
         end
 
